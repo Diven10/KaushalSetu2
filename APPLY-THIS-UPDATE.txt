@@ -1,0 +1,82 @@
+KaushalSetu — rebrand + gov-portal retheme
+==========================================
+
+This is a cumulative overlay: it contains every file changed since the
+original integrated build, so it is safe to apply whether or not you applied
+the earlier auth / shared-login / retheme zips.
+
+HOW TO APPLY (this is the same for every overlay I send)
+--------------------------------------------------------
+1. Stop the backend and all three `npm run dev` terminals.
+
+2. Extract this zip. Inside it is a folder called `KaushalSetu`. Drag that
+   folder onto your existing project folder so it merges:
+
+     C:\Users\Prakash\Downloads\KaushalSetu-integrated (2)\
+
+   Windows will ask what to do about files that already exist — choose
+   "Replace the files in the destination". That is correct: the files in here
+   are the newer versions.
+
+   Your backend\.env is NOT in this archive, so your database password and
+   settings survive.
+
+3. DELETE these three leftovers if they still exist (unused since the shared
+   sign-in page replaced the per-panel logins):
+
+     frontend\trainee-panel\src\pages\LoginPage.jsx
+     frontend\employer-panel\src\pages\LoginPage.jsx
+     frontend\gov-portal\src\pages\LoginPage.jsx
+
+4. Restart the backend, then each panel:
+
+     cd backend
+     python -m uvicorn app.main:app --reload --port 8000
+
+     npm run dev        (in each of the three frontend folders)
+
+   No `npm install` needed — no new packages.
+
+5. Start at http://localhost:8000/
+
+WHAT'S IN THIS ONE
+------------------
+Rebrand
+  - "SkillGrow" and "SkillConnect" are gone. Everything says KaushalSetu.
+    (The DATABASE is still named `skillgrow` — that is deliberate, renaming it
+    would break your .env and the dump for no benefit.)
+  - Your logo is now the brand mark in all three sidebars and on the sign-in
+    page. It was cropped to a transparent circle and resized to 256px, since
+    the original was a 1408x768 image with a white rectangle around it.
+  - Favicons added to all three panels.
+
+Training centre labelling
+  - The employer panel's sidebar now reads "Training Centre", and the sign-in
+    page's middle role button says "Training Centre" with a "Training centre
+    name" field.
+  - IMPORTANT: the role is still `employer` in the database and API. Only the
+    label changed. Renaming the role itself would mean a schema migration and
+    touching every endpoint — not something to do the night before a
+    presentation.
+
+Sign-in page
+  - Now accepts ?register=1 to open on the Create-account tab, which is what
+    the landing page's "Create account" links use.
+
+Also included (from the earlier updates, in case you hadn't applied them)
+  - Single shared sign-in page at http://localhost:8000/
+  - Trainee + employer panels retheming to the Government Portal's design
+    language
+  - Registration, role guards, SELF_REGISTER_ROLES
+
+NEW IN THIS VERSION
+-------------------
+  - DEPLOYMENT.md  — how to put this on the internet, and the six things to
+    change before you do. Read the "Before you go public" section first.
+  - .gitignore     — so your .env and venv never reach GitHub.
+
+STILL TO DO BEFORE YOU PRESENT
+------------------------------
+  In backend\.env set:  ALLOW_DEMO_IDENTITY=false
+  (until then, the sign-in page is decorative — direct API calls still
+  resolve to a demo account)

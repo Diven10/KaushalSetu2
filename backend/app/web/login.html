@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>KaushalSetu — Sign in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  /* Same tokens as the Government Portal, so the first screen already looks
+     like the platform behind it. */
+  :root {
+    --navy-900: #0a1a30;
+    --ink: #212a35;
+    --ink-soft: #444f5c;
+    --ink-faint: #7c8794;
+    --line: #e1e6ec;
+    --paper: #f5f7fa;
+    --surface: #ffffff;
+    --accent: #1e56a0;
+    --accent-soft: #e7f0fb;
+    --warn-bg: #fbe3e3;
+    --warn: #b32424;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+    background: var(--paper);
+    color: var(--ink);
+    font: 14px/1.5 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  .card {
+    width: 100%;
+    max-width: 400px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 34px;
+  }
+  .brand { display: flex; align-items: center; gap: 11px; margin-bottom: 26px; }
+  .mark { width: 38px; height: 38px; object-fit: contain; display: block; }
+  .brand p { margin: 0; }
+  .brand .name { font-size: 15.5px; font-weight: 650; }
+  .brand .tag { font-size: 11.5px; color: var(--ink-faint); }
+
+  h1 { font-size: 18px; font-weight: 650; margin: 0 0 4px; }
+  .lede { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 22px; }
+
+  .roles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 24px; }
+  .role {
+    padding: 13px 8px 11px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--surface);
+    cursor: pointer;
+    text-align: center;
+    font: inherit;
+    transition: border-color .12s, background .12s;
+  }
+  .role:hover { border-color: #c3c9d2; }
+  .role[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+  .role .icon { font-size: 17px; line-height: 1; }
+  .role .label { display: block; margin-top: 6px; font-size: 12px; font-weight: 550; }
+
+  .tabs { display: flex; gap: 4px; background: var(--paper); padding: 4px; border-radius: 7px; margin-bottom: 22px; }
+  .tab {
+    flex: 1; padding: 7px 10px; border: none; border-radius: 5px; cursor: pointer;
+    font: inherit; font-size: 12.5px; font-weight: 550; background: transparent; color: var(--ink-soft);
+  }
+  .tab[aria-selected="true"] { background: var(--navy-900); color: #fff; }
+
+  label { display: block; margin-bottom: 15px; }
+  label span.field-label { display: block; font-size: 12px; font-weight: 550; color: var(--ink-soft); margin-bottom: 6px; }
+  input, select {
+    width: 100%; padding: 10px 11px; font: inherit; font-size: 13.5px;
+    border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink);
+  }
+  input:focus, select:focus { outline: none; border-color: var(--accent); }
+  .hint { display: block; margin-top: 5px; font-size: 11.5px; color: var(--ink-faint); }
+
+  button.submit {
+    width: 100%; margin-top: 6px; padding: 11px 16px;
+    font: inherit; font-size: 13.5px; font-weight: 550;
+    background: var(--navy-900); color: #fff; border: none; border-radius: 6px; cursor: pointer;
+  }
+  button.submit:disabled { opacity: .6; cursor: default; }
+
+  .message { margin: 0 0 16px; padding: 10px 12px; border-radius: 6px; font-size: 12.5px; }
+  .message.error { background: var(--warn-bg); color: var(--warn); border: 1px solid #f3d4d4; }
+  .message.info { background: var(--accent-soft); color: var(--accent); border: 1px solid #d3e0f2; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">
+      <img class="mark" src="/logo.png" alt="" />
+      <div>
+        <p class="name">KaushalSetu</p>
+        <p class="tag">Skilling intelligence platform</p>
+      </div>
+    </div>
+
+    <h1 id="heading">Sign in</h1>
+    <p class="lede" id="lede">Choose who you are, and we'll take you to the right place.</p>
+
+    <div class="roles" role="group" aria-label="Account type">
+      <button type="button" class="role" data-role="trainee" aria-pressed="true">
+        <span class="icon">🎓</span><span class="label">Trainee</span>
+      </button>
+      <button type="button" class="role" data-role="employer" aria-pressed="false">
+        <span class="icon">🏫</span><span class="label">Training Centre</span>
+      </button>
+      <button type="button" class="role" data-role="government" aria-pressed="false">
+        <span class="icon">🏛️</span><span class="label">Government</span>
+      </button>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button type="button" class="tab" data-mode="signin" role="tab" aria-selected="true">Sign in</button>
+      <button type="button" class="tab" data-mode="register" role="tab" aria-selected="false">Create account</button>
+    </div>
+
+    <p class="message error" id="error" hidden></p>
+    <p class="message info" id="status" hidden></p>
+
+    <form id="form">
+      <label id="nameRow" hidden>
+        <span class="field-label" id="nameLabel">Full name</span>
+        <input id="name" autocomplete="organization" />
+      </label>
+
+      <label>
+        <span class="field-label">Email</span>
+        <input id="email" type="email" required autocomplete="email" />
+      </label>
+
+      <label>
+        <span class="field-label">Password</span>
+        <input id="password" type="password" required autocomplete="current-password" />
+        <span class="hint" id="passwordHint" hidden>At least 8 characters.</span>
+      </label>
+
+      <label id="districtRow" hidden>
+        <span class="field-label">District</span>
+        <select id="district"><option value="">Select a district</option></select>
+      </label>
+
+      <button type="submit" class="submit" id="submit">Sign in</button>
+    </form>
+  </div>
+
+<script>
+  // Where each role goes after a successful sign-in. Injected by the server
+  // from settings.PANEL_URLS so it follows your .env, not a hardcoded port.
+  var PANEL_URLS = __PANEL_URLS__;
+
+  var role = "trainee";
+  var mode = "signin";
+  var districtsLoaded = false;
+
+  var el = function (id) { return document.getElementById(id); };
+  var errorBox = el("error");
+  var statusBox = el("status");
+
+  function showError(text) {
+    errorBox.textContent = text;
+    errorBox.hidden = !text;
+    statusBox.hidden = true;
+  }
+
+  function showStatus(text) {
+    statusBox.textContent = text;
+    statusBox.hidden = !text;
+    errorBox.hidden = true;
+  }
+
+  function render() {
+    var registering = mode === "register";
+
+    el("heading").textContent = registering ? "Create your account" : "Sign in";
+    el("lede").textContent = registering
+      ? "Pick your account type, and we'll set you up on the right panel."
+      : "Choose who you are, and we'll take you to the right place.";
+
+    el("nameRow").hidden = !registering;
+    el("districtRow").hidden = !registering || role === "government";
+    el("passwordHint").hidden = !registering;
+    el("password").autocomplete = registering ? "new-password" : "current-password";
+
+    el("nameLabel").textContent =
+      role === "employer" ? "Training centre name" : role === "government" ? "Department" : "Full name";
+    el("name").placeholder =
+      role === "government" ? "e.g. Maharashtra State Skill Development Society" : "";
+
+    el("submit").textContent = registering ? "Create account" : "Sign in";
+
+    if (registering && role !== "government") loadDistricts();
+  }
+
+  function loadDistricts() {
+    if (districtsLoaded) return;
+    districtsLoaded = true;
+    fetch("/api/districts?limit=500")
+      .then(function (r) { return r.json(); })
+      .then(function (list) {
+        if (!Array.isArray(list)) return;
+        var select = el("district");
+        list.forEach(function (d) {
+          var option = document.createElement("option");
+          option.value = d.id;
+          option.textContent = d.name;
+          select.appendChild(option);
+        });
+      })
+      .catch(function () { districtsLoaded = false; });
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll(".role"), function (button) {
+    button.addEventListener("click", function () {
+      role = button.dataset.role;
+      Array.prototype.forEach.call(document.querySelectorAll(".role"), function (other) {
+        other.setAttribute("aria-pressed", String(other === button));
+      });
+      showError("");
+      render();
+    });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll(".tab"), function (tab) {
+    tab.addEventListener("click", function () {
+      mode = tab.dataset.mode;
+      Array.prototype.forEach.call(document.querySelectorAll(".tab"), function (other) {
+        other.setAttribute("aria-selected", String(other === tab));
+      });
+      showError("");
+      render();
+    });
+  });
+
+  // The panel is chosen by the role the SERVER reports, never by the tab the
+  // user clicked — the tab is only a hint about which form to show.
+  function handoff(result) {
+    var actualRole = (result.user && result.user.role) || role;
+    var target = PANEL_URLS[actualRole];
+
+    if (!target) {
+      showError("Signed in, but there's no panel configured for the " + actualRole + " role.");
+      return;
+    }
+
+    if (actualRole !== role) {
+      showStatus("That's a " + actualRole + " account — taking you to the " + actualRole + " panel.");
+    } else {
+      showStatus("Signed in. Opening your panel…");
+    }
+
+    // The token rides across in the URL fragment. Fragments are never sent to
+    // a server, and the panel strips it from the address bar as soon as it
+    // has read it. It is still the weakest link in this flow — a shared
+    // session cookie on one domain would be the real fix once all three
+    // panels sit behind one host.
+    var url = target + "/#token=" + encodeURIComponent(result.access_token);
+    setTimeout(function () { window.location.href = url; }, 400);
+  }
+
+  el("form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    showError("");
+
+    var email = el("email").value.trim();
+    var password = el("password").value;
+    var registering = mode === "register";
+
+    if (registering && password.length < 8) {
+      showError("Use at least 8 characters for your password.");
+      return;
+    }
+
+    var path = registering ? "/api/auth/register" : "/api/auth/login";
+    var body = registering
+      ? {
+          email: email,
+          password: password,
+          role: role,
+          full_name: role === "trainee" ? el("name").value.trim() : null,
+          company_name: role !== "trainee" ? el("name").value.trim() : null,
+          district_id: el("district").value ? Number(el("district").value) : null
+        }
+      : { email: email, password: password };
+
+    el("submit").disabled = true;
+    el("submit").textContent = registering ? "Creating account…" : "Signing in…";
+
+    fetch(path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    })
+      .then(function (response) {
+        return response.json().then(function (payload) {
+          if (!response.ok) {
+            throw new Error(
+              typeof payload.detail === "string" ? payload.detail : "Request failed (" + response.status + ")"
+            );
+          }
+          return payload;
+        });
+      })
+      .then(handoff)
+      .catch(function (err) {
+        showError(
+          err.message === "Failed to fetch"
+            ? "Can't reach the API. Is the backend still running on this port?"
+            : err.message
+        );
+      })
+      .finally(function () {
+        el("submit").disabled = false;
+        render();
+      });
+  });
+
+  // A panel sends people here with ?from=<role> when their session expires.
+  var params = new URLSearchParams(window.location.search);
+  var from = params.get("from");
+  if (from && PANEL_URLS[from]) {
+    role = from;
+    Array.prototype.forEach.call(document.querySelectorAll(".role"), function (button) {
+      button.setAttribute("aria-pressed", String(button.dataset.role === from));
+    });
+  }
+  if (params.get("register")) {
+    mode = "register";
+    Array.prototype.forEach.call(document.querySelectorAll(".tab"), function (tab) {
+      tab.setAttribute("aria-selected", String(tab.dataset.mode === "register"));
+    });
+  }
+  if (params.get("expired")) {
+    showError("Your session ended. Please sign in again.");
+  }
+
+  render();
+</script>
+</body>
+</html>

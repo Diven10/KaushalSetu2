@@ -1,0 +1,96 @@
+/* Typeface loaded the same way the Government Portal loads it. If the venue
+   has no internet the system sans stack in tailwind.config.js takes over and
+   nothing breaks — it just looks slightly different. */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-paper text-ink font-body antialiased;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-navy-900;
+    letter-spacing: -0.005em;
+  }
+
+  :focus-visible {
+    outline: 2px solid #1e56a0;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: #e7f0fb;
+  }
+}
+
+@layer components {
+  /* The portal's card: white, hairline border, barely-there shadow. */
+  .card {
+    @apply rounded-md border border-line bg-surface shadow-panel;
+  }
+
+  /* Section label above a group of cards. */
+  .section-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.07em] text-ink-faint;
+  }
+
+  /* Small status pill, matching the portal's badges. */
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-sm px-2 py-0.5 text-[11px] font-semibold;
+  }
+}
+
+@layer utilities {
+  /* Numbers align in columns and read as data, not prose — the single
+     biggest reason the portal's tables feel considered. */
+  .figure {
+    font-family: theme('fontFamily.data');
+    font-variant-numeric: tabular-nums;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #ccd3dc transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #ccd3dc;
+    border-radius: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

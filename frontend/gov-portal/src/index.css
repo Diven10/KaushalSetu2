@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root {
+  --navy-900: #0a1a30;
+  --navy-800: #0f2440;
+  --gov-blue: #1e56a0;
+  --gov-blue-dark: #163f78;
+  --gov-blue-light: #e7f0fb;
+  --white: #ffffff;
+  --grey-50: #f5f7fa;
+  --grey-100: #eef1f5;
+  --grey-200: #e1e6ec;
+  --grey-300: #ccd3dc;
+  --grey-500: #7c8794;
+  --charcoal: #212a35;
+  --charcoal-600: #444f5c;
+
+  --green-700: #1c7a4c;
+  --green-100: #e4f5ec;
+  --yellow-700: #92720b;
+  --yellow-100: #fbf1d3;
+  --orange-700: #b5560f;
+  --orange-100: #fdead9;
+  --red-700: #b32424;
+  --red-100: #fbe3e3;
+  --blue-700: #1e56a0;
+  --blue-100: #e7f0fb;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --shadow-card: 0 1px 2px rgba(10, 26, 48, 0.06), 0 1px 0 rgba(10, 26, 48, 0.04);
+
+  --font-ui: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-data: 'IBM Plex Mono', 'SFMono-Regular', monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  background: var(--grey-50);
+  color: var(--charcoal);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--grey-300); border-radius: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+.figure { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+.card {
+  background: var(--white);
+  border: 1px solid var(--grey-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+.scroll-x { overflow-x: auto; }
+
+:focus-visible {
+  outline: 2px solid var(--gov-blue);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
